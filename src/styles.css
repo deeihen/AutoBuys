@@ -252,32 +252,17 @@ footer p{color:var(--slab-mute);font-size:.95rem}
   html{scroll-behavior:auto}
 }
 
-/* New route layouts use the approved design's tokens and existing classes. */
-a.cart-btn,.tile{text-decoration:none}
-.page{padding-top:clamp(2rem,5vw,4rem)}
+/* ---- Added for the React app: routes, forms, orders ---- */
+.main-nav a.active{color:var(--ink)}
+.nav-btn{background:none;border:0;padding:0;color:var(--ink-2);font-weight:500}
+.nav-btn:hover{color:var(--ink)}
+.page{padding:clamp(2rem,5vw,4rem) 0;min-height:50vh}
 .page h1{font-size:clamp(2.6rem,6vw,4rem);margin-bottom:1.5rem}
-.page h2{font-size:2rem}
-.form-panel{max-width:520px;margin-inline:auto}
+.form-panel{max-width:460px}
 .page-panel{background:var(--surface);padding:1.5rem}
-.cart-layout{display:grid;grid-template-columns:2fr 1fr;gap:2rem}
-.cart-summary{align-self:start;display:grid;gap:1rem;background:var(--surface);padding:1.5rem}
-.page .pdp{background:var(--surface)}
-.pdp-info h1{font-size:2.6rem;margin-bottom:0}
-.status{padding:1.5rem 0;color:var(--ink-2)}
-.error{color:var(--autobot)}
-.order{margin-top:1rem;padding:1.5rem;background:var(--surface)}
-.order ul{padding-left:1.25rem}
-.mobile-nav{display:none}
-.theme-button{border:0;background:var(--surface);padding:.4rem .6rem;font-size:.85rem}
-.card h3 a{color:inherit;text-decoration:none}
-.card .note{margin-top:.4rem}
-.thumb .photo{aspect-ratio:1}
-@media(max-width:700px){
-  .bar{gap:.7rem}
-  .mobile-nav{display:flex;flex-wrap:wrap;gap:.5rem 1rem;padding-bottom:.65rem}
-  .mobile-nav a{color:var(--ink);text-decoration:none}
-  .cart-layout{grid-template-columns:1fr}
-  .theme-button{font-size:.75rem}
-  .line{grid-template-columns:52px 1fr auto;gap:.5rem}
-}
-
+fieldset.plain{border:0;padding:0;margin:0;min-width:0}
+.error{color:var(--autobot);font-weight:500;margin:.5rem 0}
+.order{background:var(--surface);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.order h2{font-size:1.8rem;margin-bottom:.3rem}
+.order ul{margin:.8rem 0 0;padding-left:1.1rem}
+.qty button[disabled]{opacity:.4;cursor:not-allowed}
