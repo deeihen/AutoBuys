@@ -1,4 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+const transformedImages = {
+  'Optimus Prime': '/products/optimus-prime.png',
+  'Megatron': '/products/megatron.png',
+  'Bumblebee': '/products/bumblebee.png',
+  'Starscream': '/products/starscream.png',
+  'Grimlock': '/products/grimlock.png',
+  'Ironhide': '/products/ironhide.png',
+  'Soundwave': '/products/soundwave.png',
+}
 
 // Abstract transforming figure. Add the `robot` class to unfold it.
 export function Fig({ robot = false, accent }) {
@@ -21,9 +31,29 @@ export function Fig({ robot = false, accent }) {
 function Box() {
   return (
     <svg className="fig gear" viewBox="0 0 400 320" aria-hidden="true" focusable="false">
-      <path d="M90 90 200 50 310 90 310 240 200 280 90 240Z" />
-      <path className="edge" d="M90 90 200 130 310 90M200 130V280" />
-      <path className="mark" d="M150 176l30 14-30 14M190 176l30 14-30 14" />
+      <defs>
+        <linearGradient id="box-top" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#F36A61" />
+          <stop offset="1" stopColor="#D94B45" />
+        </linearGradient>
+        <linearGradient id="box-left" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#E95A52" />
+          <stop offset="1" stopColor="#C93D3A" />
+        </linearGradient>
+        <linearGradient id="box-right" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#D94A45" />
+          <stop offset="1" stopColor="#B93435" />
+        </linearGradient>
+        <filter id="box-shadow" x="-20%" y="-20%" width="140%" height="160%">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+      </defs>
+      <ellipse className="gear-shadow" cx="200" cy="286" rx="112" ry="14" />
+      <path className="gear-top" d="M200 42 316 88 200 134 84 88Z" />
+      <path className="gear-left" d="M84 88 200 134v132L84 220Z" />
+      <path className="gear-right" d="m200 134 116-46v132l-116 46Z" />
+      <path className="gear-seam" d="M200 134v132M84 88l116 46 116-46" />
+      <path className="gear-mark" d="m154 172 25 10-25 10M196 172l25 10-25 10" />
     </svg>
   )
 }
@@ -31,7 +61,36 @@ function Box() {
 // Product photo from image_url; falls back to the abstract art when empty or broken.
 export default function Art({ product, robot }) {
   const [broken, setBroken] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [showTransformedImage, setShowTransformedImage] = useState(false)
+  const transformed = robot || hovered
+  const transformedImage = transformedImages[product.name]
+
+  useEffect(() => {
+    if (!transformed || !transformedImage) {
+      setShowTransformedImage(false)
+      return undefined
+    }
+    const timer = setTimeout(() => setShowTransformedImage(true), 850)
+    return () => clearTimeout(timer)
+  }, [transformed, transformedImage])
+
   if (product.image_url && !broken)
     return <img className="photo" src={product.image_url} alt={product.name} loading="lazy" onError={() => setBroken(true)} />
-  return product.category === 'Figure' ? <Fig robot={robot} /> : <Box />
+  if (product.category !== 'Figure') return <Box />
+
+  return (
+    <span className="figure-art" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      <Fig robot={transformed} accent={`var(--${product.faction.toLowerCase()})`} />
+      {transformedImage && !broken && (
+        <img
+          className={`photo figure-photo${showTransformedImage ? ' revealed' : ''}`}
+          src={transformedImage}
+          alt={`${product.name} transformed`}
+          loading="lazy"
+          onError={() => setBroken(true)}
+        />
+      )}
+    </span>
+  )
 }
