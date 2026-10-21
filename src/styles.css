@@ -120,12 +120,18 @@ select{width:auto}
 .f-neutral{--fc:var(--neutral);--acc:var(--neutral)}
 
 .card{--cut:18px;display:flex;flex-direction:column;background:var(--surface)}
-.media{position:relative;display:block;width:100%;border:0;padding:2rem 1.25rem 1rem;background:var(--surface-2);color:var(--ink)}
+.media{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:296px;box-sizing:border-box;border:0;padding:2rem 1.25rem 1rem;background:var(--surface-2);color:var(--ink);overflow:hidden}
 .media .fig{max-height:190px;margin-inline:auto}
 .media:focus-visible{outline-offset:-6px}
 .card.out .media .fig,.card.out .media .photo{opacity:.45}
 [hidden]{display:none!important}
 .photo{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover}
+.figure-art{position:relative;display:block;width:100%;height:100%;min-height:0;overflow:hidden}
+.figure-art>.fig{width:100%;height:100%;max-height:none}
+.figure-photo{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background:#fff;object-fit:cover;padding:0;clip-path:inset(100% 0 0 0);transition:clip-path .55s cubic-bezier(.76,0,.24,1);pointer-events:none}
+.figure-photo.revealed{clip-path:inset(0)}
+.media>.figure-art{flex:1}
+.pdp-media .figure-art{height:auto;aspect-ratio:1}
 .media:has(.photo){padding:0}
 .pdp-media:has(.photo){padding:0;background-color:var(--surface-2)}
 .hero-photo{aspect-ratio:4/3}
@@ -160,9 +166,13 @@ select{width:auto}
 .p-wheelL{fill:#4A5560;transform:translate(-12px,215px) scale(1.45)}
 .p-wheelR{fill:#4A5560;transform:translate(12px,215px) scale(1.45)}
 .fig.robot .p,.card:hover .fig .p,.card:focus-within .fig .p{transform:none}
-.gear path{fill:var(--acc,#5E6A75)}
-.gear path.edge{fill:none}
-.gear path.mark{fill:none;stroke:#fff;stroke-width:6;opacity:.85}
+.gear path{vector-effect:non-scaling-stroke}
+.gear .gear-shadow{fill:#0A0E12;stroke:none;opacity:.55;filter:url(#box-shadow)}
+.gear .gear-top{fill:url(#box-top);stroke:#10151A;stroke-width:4}
+.gear .gear-left{fill:url(#box-left);stroke:#10151A;stroke-width:4}
+.gear .gear-right{fill:url(#box-right);stroke:#10151A;stroke-width:4}
+.gear .gear-seam{fill:none;stroke:#10151A;stroke-width:3}
+.gear .gear-mark{fill:none;stroke:#FFF6F3;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
 
 /* Product dialog */
 dialog{border:0;padding:0;background:var(--surface);color:var(--ink);width:min(880px,calc(100% - 1.5rem));max-height:calc(100% - 2rem);overflow:auto}
